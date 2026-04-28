@@ -3,45 +3,51 @@
 <head>
     <meta charset="utf-8">
     <title>ร้านเค้ก</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>เมนูเค้กร้านเค้ก</h1>
-    <p><a href="{{ url_for('add_cake') }}">เพิ่มเค้กใหม่</a></p>
+    <div class="page-wrapper">
+        <header>
+            <div>
+                <h1>ร้านเค้กของฉัน</h1>
+                <p>ดูรายการเค้กที่มีในร้าน เพิ่ม แก้ไข หรือลบสินค้าได้สะดวก</p>
+            </div>
+            <a class="button" href="{{ url_for('add_cake') }}">➕ เพิ่มเค้กใหม่</a>
+        </header>
 
-    {% if cakes %}
-    <table border="1" cellpadding="8" cellspacing="0">
-        <tr>
-            <th>รูป</th>
-            <th>ชื่อเค้ก</th>
-            <th>หมวด</th>
-            <th>ราคา</th>
-            <th>stock</th>
-            <th>จัดการ</th>
-        </tr>
-        {% for cake in cakes %}
-        <tr>
-            <td>
-                {% if cake.image %}
-                    <img src="{{ cake.image }}" alt="{{ cake.name }}" width="120">
-                {% else %}
-                    ไม่มีรูป
-                {% endif %}
-            </td>
-            <td>{{ cake.name }}</td>
-            <td>{{ cake.category_name }}</td>
-            <td>{{ "{:.2f}".format(cake.price) }}</td>
-            <td>{{ cake.stock }}</td>
-            <td>
-                <a href="{{ url_for('edit_cake', cake_id=cake.id) }}">แก้ไข</a>
-                <form action="{{ url_for('delete_cake', cake_id=cake.id) }}" method="post" style="display:inline; margin-left:8px;">
-                    <button type="submit">ลบ</button>
-                </form>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
-    {% else %}
-    <p>ยังไม่มีเค้กในระบบ กรุณาเพิ่มสินค้า</p>
-    {% endif %}
+        {% if cakes %}
+        <div class="cards">
+            {% for cake in cakes %}
+            <article class="card">
+                <div class="card-image">
+                    {% if cake.image %}
+                        <img src="{{ cake.image }}" alt="{{ cake.name }}">
+                    {% else %}
+                        <div class="no-image">ไม่มีรูป</div>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <h2>{{ cake.name }}</h2>
+                    <p class="category">หมวด: {{ cake.category_name }}</p>
+                    <p class="price">ราคา {{ "{:.2f}".format(cake.price) }} บาท</p>
+                    <p>คงเหลือ: {{ cake.stock }} ชิ้น</p>
+                    <div class="card-actions">
+                        <a class="button-secondary" href="{{ url_for('edit_cake', cake_id=cake.id) }}">✏️ แก้ไข</a>
+                        <form action="{{ url_for('delete_cake', cake_id=cake.id) }}" method="post">
+                            <button type="submit" class="button">🗑️ ลบ</button>
+                        </form>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="form-card">
+            <h2>ยังไม่มีเค้กในระบบ</h2>
+            <p>ลองเพิ่มเค้กใหม่เพื่อเริ่มต้นร้านของคุณ</p>
+            <a class="button" href="{{ url_for('add_cake') }}">เพิ่มเค้กใหม่</a>
+        </div>
+        {% endif %}
+    </div>
 </body>
 </html>
