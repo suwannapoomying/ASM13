@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="th">
+<head>
+    <meta charset="utf-8">
+    <title>ร้านเค้ก</title>
+</head>
+<body>
+    <h1>เมนูเค้กร้านเค้ก</h1>
+    <p><a href="{{ url_for('add_cake') }}">เพิ่มเค้กใหม่</a></p>
+
+    {% if cakes %}
+    <table border="1" cellpadding="8" cellspacing="0">
+        <tr>
+            <th>รูป</th>
+            <th>ชื่อเค้ก</th>
+            <th>หมวด</th>
+            <th>ราคา</th>
+            <th>stock</th>
+            <th>จัดการ</th>
+        </tr>
+        {% for cake in cakes %}
+        <tr>
+            <td>
+                {% if cake.image %}
+                    <img src="{{ cake.image }}" alt="{{ cake.name }}" width="120">
+                {% else %}
+                    ไม่มีรูป
+                {% endif %}
+            </td>
+            <td>{{ cake.name }}</td>
+            <td>{{ cake.category_name }}</td>
+            <td>{{ "{:.2f}".format(cake.price) }}</td>
+            <td>{{ cake.stock }}</td>
+            <td>
+                <a href="{{ url_for('edit_cake', cake_id=cake.id) }}">แก้ไข</a>
+                <form action="{{ url_for('delete_cake', cake_id=cake.id) }}" method="post" style="display:inline; margin-left:8px;">
+                    <button type="submit">ลบ</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>ยังไม่มีเค้กในระบบ กรุณาเพิ่มสินค้า</p>
+    {% endif %}
+</body>
+</html>

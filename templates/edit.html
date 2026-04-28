@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="th">
+<head>
+    <meta charset="utf-8">
+    <title>แก้ไขเค้ก</title>
+</head>
+<body>
+    <h1>แก้ไขสินค้า: {{ cake.name }}</h1>
+    <form method="post">
+        <p>
+            <label>ชื่อเค้ก:<br>
+                <input type="text" name="name" value="{{ cake.name }}" required>
+            </label>
+        </p>
+        <p>
+            <label>ราคา:<br>
+                <input type="number" name="price" step="0.01" value="{{ cake.price }}" required>
+            </label>
+        </p>
+        <p>
+            <label>stock:<br>
+                <input type="number" name="stock" value="{{ cake.stock }}" required>
+            </label>
+        </p>
+        <p>
+            <label>รูปภาพ (URL):<br>
+                <input type="text" name="image" value="{{ cake.image }}">
+            </label>
+        </p>
+        <p>
+            <label>หมวดหมู่:<br>
+                <select name="category_id" required>
+                    {% for category in categories %}
+                        <option value="{{ category.id }}" {% if category.id == cake.category_id %}selected{% endif %}>
+                            {{ category.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </label>
+        </p>
+        <button type="submit">บันทึกการแก้ไข</button>
+    </form>
+    <p><a href="{{ url_for('cake_menu') }}">กลับไปหน้ารายการเค้ก</a></p>
+</body>
+</html>

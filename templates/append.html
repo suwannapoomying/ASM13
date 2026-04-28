@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="th">
+<head>
+    <meta charset="utf-8">
+    <title>เพิ่มเค้กใหม่</title>
+</head>
+<body>
+    <h1>เพิ่มสินค้าเค้ก</h1>
+    <form method="post">
+        <p>
+            <label>ชื่อเค้ก:<br>
+                <input type="text" name="name" required>
+            </label>
+        </p>
+        <p>
+            <label>ราคา:<br>
+                <input type="number" name="price" step="0.01" value="0" required>
+            </label>
+        </p>
+        <p>
+            <label>stock:<br>
+                <input type="number" name="stock" value="0" required>
+            </label>
+        </p>
+        <p>
+            <label>รูปภาพ (URL):<br>
+                <input type="text" name="image" placeholder="https://...">
+            </label>
+        </p>
+        <p>
+            <label>หมวดหมู่:<br>
+                <select name="category_id" required>
+                    {% for category in categories %}
+                        <option value="{{ category.id }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+        </p>
+        <button type="submit">บันทึก</button>
+    </form>
+    <p><a href="{{ url_for('cake_menu') }}">กลับไปหน้ารายการเค้ก</a></p>
+</body>
+</html>
