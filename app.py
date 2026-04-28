@@ -21,7 +21,6 @@ def init_db():
     db.close()
 
 
-@app.before_first_request
 def setup():
     init_db()
     db = get_db()
@@ -33,6 +32,9 @@ def setup():
         )
         db.commit()
     db.close()
+
+
+setup()
 
 
 @app.route("/")
